@@ -141,7 +141,8 @@ public class RestTemplateService {
     // Body에 넣어 보낼 데이터
     User user = new User("Jun", "1234");
 
-    // 위에서 만든 URI를 RequestEntity객체로 만들어서 RequestBody로 보낸다
+    // 위에서 만든 URI를 RequestEntity객체로 만들어서 RequestBody 실어 보낸다
+    // Post방식은 RequestBody로 데이터를 보낼 수 있다 / Get방식은 Body가 없다
     RequestEntity<User> requestEntity = RequestEntity
             .post(uri) // body로 보내기 때문에 Post방식 사용
             // 클라이언트에서 {"Key" : "X-Authorization", "Value" : "token"}형태로 토큰을 server로 보낸다
