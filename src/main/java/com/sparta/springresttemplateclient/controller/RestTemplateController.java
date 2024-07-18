@@ -17,7 +17,7 @@ public class RestTemplateController {
     this.restTemplateService = restTemplateService;
   }
 
-
+  // [ @RequestParam ] 방식
   // server에서 데이터 하나만 받아오기
   // [Get] http://localhost:8080/api/client/get-all-obj?query=Mac
   @GetMapping("/get-call-obj")
@@ -27,7 +27,6 @@ public class RestTemplateController {
     return restTemplateService.getCallObject(query);
   }
 
-
   // server에서 데이터 전부 가져오기
   // [Get] http://localhost:8080/api/server/get-call-list
   @GetMapping("/get-call-list")
@@ -35,8 +34,14 @@ public class RestTemplateController {
     return restTemplateService.getCallList();
   }
 
+
+  // [ @PathVariable ] 방식
   @GetMapping("/post-call")
-  public ItemDto postCall(String query) {
+  public ItemDto postCall(
+          /* /post-call?query=Mac으로 client에서는 시작하지만,
+             postCall()에서 server로 보낼때는 @PathVariable방식으로 보낸다 */
+          // @RequestParam 생략 가능
+          String query) {
     return restTemplateService.postCall(query);
   }
 
