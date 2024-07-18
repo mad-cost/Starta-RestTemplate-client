@@ -24,6 +24,9 @@ repositories {
 }
 
 dependencies {
+    // json: json을 다룰때 도움을 주는 의존성
+    implementation 'org.json:json:20230227'
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
