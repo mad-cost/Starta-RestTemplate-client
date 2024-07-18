@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -126,7 +127,31 @@ public class RestTemplateService {
     return responseEntity.getBody();
   }
 
+  // exchange()사용
   public List<ItemDto> exchangeCall(String token) {
-    return null;
+    // 요청 URL 만들기
+    URI uri = UriComponentsBuilder
+            .fromUriString("http://localhost:7070")
+            .path("/api/server/exchange-call")
+            .encode()
+            .build()
+            .toUri();
+    log.info("uri = " + uri);
+
+    // Body에 넣어 보낼 데이터
+    User user = new User("Jun", "1234");
+
+    // 위에서 만든 URI를 RequestEntity객체로 만들어서 RequestBody로 보낸다
+    RequestEntity<User> requestEntity = RequestEntity
+            .post(uri) // body로 보내기 때문에 Post방식 사용
+            // 클라이언트에서 {"Key" : "X-Authorization", "Value" : "token"}형태로 토큰을 server로 보낸다
+            .header("X-Authorization", token)
+            .body(user);
+
+    // exchange(ResponseEntityType, server로 부터 반환 받을 responseType)
+    ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+
+    return fromJSONtoItems(responseEntity.getBody());
   }
+
 }

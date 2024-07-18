@@ -2,10 +2,11 @@ package com.sparta.springresttemplateclient.controller;
 
 import com.sparta.springresttemplateclient.dto.ItemDto;
 import com.sparta.springresttemplateclient.service.RestTemplateService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/client")
 public class RestTemplateController {
@@ -45,8 +46,15 @@ public class RestTemplateController {
     return restTemplateService.postCall(query);
   }
 
+
   @GetMapping("/exchange-call")
-  public List<ItemDto> exchangeCall(@RequestHeader("Authorization") String token) {
+  public List<ItemDto> exchangeCall(
+          // 클라이언트에서 {"Key" : "Authorization", "Value" : "token"}형태로 토큰을 받는다
+          // 받은 토큰을 service로직을 통해 다시 서버로 보내줄 예정
+          @RequestHeader("Authorization")
+          String token
+  ) {
     return restTemplateService.exchangeCall(token);
   }
+
 }
